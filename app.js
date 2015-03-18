@@ -1,15 +1,28 @@
 $(document).ready(function(){
 
-var $body = $('#tweets');
-$body.html('');
-
-var index = streams.home.length - 1;
-while(index >= 0){
-  var tweet = streams.home[index];
-  var $tweet = $('<div></div>');
-  $tweet.text('@' + tweet.user + ': ' + tweet.message);
-  $tweet.appendTo($body);
-  index -= 1;
-}
+	showTweets();
+	setInterval(showTweets,3000);
 
 });
+
+var app = {
+	user: undefined
+};
+
+var showTweets = function(){
+
+	var tweets, $body = $('#tweets');
+	$body.html('');
+
+	app.user === undefined ? tweets = streams.home : tweets = streams.user;
+
+	tweets = tweets.slice(-20);
+
+	tweets.forEach(function(tweet){
+		var $tweet = $('<div></div>');
+		$tweet.text('@' + tweet.user + ': ' + tweet.message);
+		$tweet.prependTo($body);
+	});
+
+};
+
