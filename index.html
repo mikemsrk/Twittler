@@ -1,27 +1,39 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="jquery.js"></script>
-    <script src="data_generator.js"></script>
+    <title>Twittler</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="app.css">
   </head>
   <body>
-    <script>
+    <!-- Top Header -->
+    <div class='jumbotron'>
+      <h2>Twittler</h2>
+      <p>&copy;mikemsrk</p>
+    </div>
+    <!-- /Top Header -->
 
-      $(document).ready(function(){
-        var $body = $('body');
-        $body.html('');
+    <!-- Main Body -->
+    <div class='container'>
+      <!-- Profile -->
+      <div class='col-sm-3'>
+        <a href="#">@Hamstar</a>
 
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index -= 1;
-        }
 
-      });
+      </div><!-- /Profile -->
 
-    </script>
+      <!-- Tweets -->
+      <div class='col-sm-9' id='tweets'>
+
+
+      </div><!-- /Tweets -->
+    </div><!-- /Main Body-->
+
+    <!-- Javascript -->
+    <script src="jquery.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <script src="data_generator.js"></script>
+    <script src="app.js"></script>
+    <!-- /Javascript -->
   </body>
 </html>
