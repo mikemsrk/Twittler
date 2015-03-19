@@ -44,7 +44,7 @@ var showTweets = function(){
 		var item = "<li>";
 		item += "<a href=#" + tweet.user + ">@" + tweet.user +"</a>: ";
 		item += "<span>" + tweet.message + "</span> ";
-		item += "<span class='date'> " + $.timeago(tweet.created_at) + "</span></li>";
+		item += "<abbr class='date timeago' title='"+ tweet.created_at.toISOString() +"'></abbr> " + "</span></li>";
 
 		$body.prepend(item);
 	});
@@ -62,6 +62,13 @@ var update = function(){
 
 	newTweets === 0 ? upd.slideUp() : upd.slideDown();
 	var text = "<a href='#'>" + newTweets + ' new tweets.</a>';
+
+	//Update timestamps
+	var dates = $('#tweets abbr');
+	$.each(dates,function(index,item){
+		var timestamp = $.timeago(new Date($(item).attr('title')));
+		$(item).text(timestamp);
+	});
 
 	upd.html(text);
 };
