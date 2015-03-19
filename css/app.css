@@ -1,12 +1,7 @@
 h1,h2,h3,p,li,ul,div{
 	font-family: 'Century Gothic';
 }
-
-.jumbotron{
-	text-align:center;
-}
-
-.profile{
+.centered{
 	text-align:center;
 }
 
@@ -22,6 +17,10 @@ h1,h2,h3,p,li,ul,div{
 	list-style: none;
 }
 
+#tweets span{
+	margin:0 10px 0 5px;
+}
+
 #home{
 	color:black;
 }	
@@ -29,4 +28,8 @@ h1,h2,h3,p,li,ul,div{
 .date{
 	font-size: 9px;
 	color:red;
+}
+
+#update{
+	background-color: rgb(200, 255, 228);
 }

@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 	showTweets();
-	setInterval(showTweets,3000);
+	setInterval(update,3000);
 
 	$('#tweets').on('click','a',function(e){
 		e.preventDefault();
@@ -17,11 +17,17 @@ $(document).ready(function(){
 		showTweets();
 	});
 
+	$('#update').on('click','a',function(e){
+		e.preventDefault();
+		showTweets();
+	});
+
 
 });
 
 var app = {
-	user: undefined
+	user: undefined,
+	tweets: 0
 };
 
 var showTweets = function(){
@@ -30,6 +36,7 @@ var showTweets = function(){
 	$body.html('');
 
 	app.user === undefined ? tweets = streams.home : tweets = streams.users[app.user];
+	app.tweets = tweets.length;
 
 	tweets = tweets.slice(-20);
 
@@ -42,5 +49,20 @@ var showTweets = function(){
 		$body.prepend(item);
 	});
 
+	update();
+
+};
+
+var update = function(){
+	var upd = $('#update');
+	var tweets;
+	app.user === undefined ? tweets = streams.home : tweets = streams.users[app.user];
+
+	var newTweets = tweets.length - app.tweets;
+
+	newTweets === 0 ? upd.slideUp() : upd.slideDown();
+	var text = "<a href='#'>" + newTweets + ' new tweets.</a>';
+
+	upd.html(text);
 };
 
