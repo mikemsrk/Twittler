@@ -10,7 +10,6 @@ $(document).ready(function(){
 		user = user.slice(1);
 		app.user = user;
 		app.profileImage = 'img/blank.jpg';
-	
 		showTweets();
 	});
 
@@ -28,6 +27,23 @@ $(document).ready(function(){
 		showTweets();
 	});
 
+//	Add Tweet Form, on enter - input the tweet into the stream and display it on page.
+	$('#addTweet').keypress(function(e){
+		if(e.which == 13){
+			e.preventDefault();
+			var tweet = {
+				created_at: new Date(),
+				message: $(this).val(),
+				user: app.user
+			};
+			streams.home.push(tweet);	//Into main stream
+			if(streams.users[app.user] === undefined) streams.users[app.user] = [];	//For new user
+			streams.users[app.user].push(tweet);	//Into user stream
+			$('#tweets').prepend(buildTweet(tweet));
+			$(this).val(''); //Clear form
+		}
+	});
+
 
 });
 
@@ -39,7 +55,6 @@ var app = {
 };
 
 var showTweets = function(){	//Finds the tweet stream and displays it in body
-
 	var tweets, $body = $('#tweets');
 	$body.html('');
 
@@ -56,16 +71,18 @@ var showTweets = function(){	//Finds the tweet stream and displays it in body
 
 	//Build each tweet and prepend it to body
 	tweets.forEach(function(tweet){
-		var item = "<li>";
-		item += "<a href=#" + tweet.user + ">@" + tweet.user +"</a>: ";
-		item += "<span>" + tweet.message + "</span> ";
-		item += "<abbr class='date timeago' title='"+ tweet.created_at.toISOString() +"'></abbr> " + "</span></li>";
-
-		$body.prepend(item);
+		$body.prepend(buildTweet(tweet));
 	});
-
 	update();	//Run the update to update the 'new tweets' bar
+};
 
+var buildTweet = function(tweet){	//Builds and returns a single tweet based on parameters
+	var item = "<li>";
+	item += "<a href=#" + tweet.user + ">@" + tweet.user +"</a>: ";
+	item += "<span>" + tweet.message + "</span> ";
+	item += "<abbr class='date timeago' title='"+ tweet.created_at.toISOString() +"'></abbr> " + "</span></li>";
+
+	return item;
 };
 
 var update = function(){
@@ -73,9 +90,7 @@ var update = function(){
 	var upd = $('#update');
 	var tweets;
 	app.user === 'hamstar' ? tweets = streams.home : tweets = streams.users[app.user];
-
 	var newTweets = tweets.length - app.tweets;
-
 	newTweets === 0 ? upd.slideUp() : upd.slideDown();
 	var text = "<a href='#'>" + newTweets + ' new tweets.</a>';
 	upd.html(text);
