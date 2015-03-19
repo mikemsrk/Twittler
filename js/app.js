@@ -3,9 +3,9 @@ $(document).ready(function(){
 	showTweets();
 	setInterval(update,3000);
 
+//	Clicking on user profile, switches user.
 	$('#tweets').on('click','a',function(e){
 		e.preventDefault();	
-		//	Switch to user profile
 		var user = $(this).attr("href");
 		user = user.slice(1);
 		app.user = user;
@@ -14,6 +14,7 @@ $(document).ready(function(){
 		showTweets();
 	});
 
+//	Clicking on top 'Twittler' takes you back home and switches to default user.
 	$('#home').on('click',function(e){
 		e.preventDefault();
 		app.user = 'hamstar';
@@ -21,6 +22,7 @@ $(document).ready(function(){
 		showTweets();
 	});
 
+//	Clicking on 'x new tweets' bar, shows the new tweets
 	$('#update').on('click','a',function(e){
 		e.preventDefault();
 		showTweets();
@@ -36,19 +38,23 @@ var app = {
 	profileImage: 'img/hamster.jpg'
 };
 
-var showTweets = function(){
+var showTweets = function(){	//Finds the tweet stream and displays it in body
 
 	var tweets, $body = $('#tweets');
 	$body.html('');
+
+	//Update the profile image and text
 	$('.profile img').attr('src',app.profileImage);
 	$('.profile a').text('@' + app.user);
 
-
+	//Find the right stream based on app.user
 	app.user === 'hamstar' ? tweets = streams.home : tweets = streams.users[app.user];
 	app.tweets = tweets.length;
 
+	//Limit the tweets to app.viewLimit
 	tweets = tweets.slice(-app.viewLimit);
 
+	//Build each tweet and prepend it to body
 	tweets.forEach(function(tweet){
 		var item = "<li>";
 		item += "<a href=#" + tweet.user + ">@" + tweet.user +"</a>: ";
@@ -58,7 +64,7 @@ var showTweets = function(){
 		$body.prepend(item);
 	});
 
-	update();
+	update();	//Run the update to update the 'new tweets' bar
 
 };
 
