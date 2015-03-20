@@ -13,8 +13,8 @@ $(document).ready(function(){
 		showTweets();
 	});
 
-//	Clicking on top 'Twittler' takes you back home and switches to default user.
-	$('#home').on('click',function(e){
+//	Clicking on top 'Twittler' or 'Return Home' takes you back home and switches to default user.
+	$('.home').on('click',function(e){
 		e.preventDefault();
 		app.user = app.defaultUser;
 		app.profileImage = app.defaultProfileImage;
@@ -63,6 +63,7 @@ var showTweets = function(){	//Finds the tweet stream and displays it in body
 	//Update the profile image and text
 	$('.profile img').attr('src',app.profileImage);
 	$('.profile a').text('@' + app.user);
+	app.user === app.defaultUser ? $('#return').slideUp() : $('#return').slideDown();	//return home
 
 	//Find the right stream based on app.user
 	app.user === app.defaultUser ? tweets = streams.home : tweets = streams.users[app.user];
@@ -75,6 +76,7 @@ var showTweets = function(){	//Finds the tweet stream and displays it in body
 	tweets.forEach(function(tweet){
 		$body.prepend(buildTweet(tweet));
 	});
+
 	update();	//Run the update to update the 'new tweets' bar
 };
 

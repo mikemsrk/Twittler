@@ -8,7 +8,7 @@
   <body>
     <!-- Top Header -->
     <div class='jumbotron centered'>
-      <h2><a href= "#" id='home'>Twittler</a></h2>
+      <h2><a href= "#" class='home'>Twittler</a></h2>
       <p>&copy;mikemsrk</p>
     </div>
     <!-- /Top Header -->
@@ -16,10 +16,13 @@
     <!-- Main Body -->
     <div class='container'>
       <!-- Profile -->
-      <div class='col-sm-3 profile centered'>
+      <div class='col-sm-3 centered'>
+        <div class='profile'>
         <img src="img/hamster.jpg" class='img-circle'></img>
         <a href='#'>@Hamstar</a>
         <input type="text" id="addTweet" class="form-control" placeholder="Tweet something."></input>
+      </div>
+        <a href="#" id='return' class='home btn-xs btn-warning' hidden>Return Home</a>
       </div><!-- /Profile -->
 
       <!-- Tweets -->
