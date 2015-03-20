@@ -9,15 +9,15 @@ $(document).ready(function(){
 		var user = $(this).attr("href");
 		user = user.slice(1);
 		app.user = user;
-		app.profileImage = 'img/blank.jpg';
+		user === app.defaultUser ? app.profileImage = app.defaultProfileImage :app.profileImage = 'img/blank.jpg';
 		showTweets();
 	});
 
 //	Clicking on top 'Twittler' takes you back home and switches to default user.
 	$('#home').on('click',function(e){
 		e.preventDefault();
-		app.user = 'hamstar';
-		app.profileImage = 'img/hamster.jpg';
+		app.user = app.defaultUser;
+		app.profileImage = app.defaultProfileImage;
 		showTweets();
 	});
 
@@ -34,11 +34,11 @@ $(document).ready(function(){
 			var tweet = {
 				created_at: new Date(),
 				message: $(this).val(),
-				user: app.user
+				user: app.defaultUser
 			};
 			streams.home.push(tweet);	//Into main stream
-			if(streams.users[app.user] === undefined) streams.users[app.user] = [];	//For new user
-			streams.users[app.user].push(tweet);	//Into user stream
+			if(streams.users[app.defaultUser] === undefined) streams.users[app.defaultUser] = [];	//For new user
+			streams.users[app.defaultUser].push(tweet);	//Into user stream
 			$('#tweets').prepend(buildTweet(tweet));
 			$(this).val(''); //Clear form
 		}
@@ -49,9 +49,11 @@ $(document).ready(function(){
 
 var app = {
 	user: 'hamstar',
+	defaultUser: 'hamstar',
 	tweets: 0,
 	viewLimit: 20,
-	profileImage: 'img/hamster.jpg'
+	profileImage: 'img/hamster.jpg',
+	defaultProfileImage: 'img/hamster.jpg'
 };
 
 var showTweets = function(){	//Finds the tweet stream and displays it in body
@@ -63,7 +65,7 @@ var showTweets = function(){	//Finds the tweet stream and displays it in body
 	$('.profile a').text('@' + app.user);
 
 	//Find the right stream based on app.user
-	app.user === 'hamstar' ? tweets = streams.home : tweets = streams.users[app.user];
+	app.user === app.defaultUser ? tweets = streams.home : tweets = streams.users[app.user];
 	app.tweets = tweets.length;
 
 	//Limit the tweets to app.viewLimit
@@ -89,7 +91,7 @@ var update = function(){
 	//Update the "new tweets" bar
 	var upd = $('#update');
 	var tweets;
-	app.user === 'hamstar' ? tweets = streams.home : tweets = streams.users[app.user];
+	app.user === app.defaultUser ? tweets = streams.home : tweets = streams.users[app.user];
 	var newTweets = tweets.length - app.tweets;
 	newTweets === 0 ? upd.slideUp() : upd.slideDown();
 	var text = "<a href='#'>" + newTweets + ' new tweets.</a>';
